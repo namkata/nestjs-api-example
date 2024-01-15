@@ -31,3 +31,5 @@ node_modules/
 # OS-specific files
 .DS_Store
 Thumbs.db
+yarn.lock
+package-lock.json

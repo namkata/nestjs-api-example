@@ -8,44 +8,45 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  ParseIntPipe,
 } from '@nestjs/common';
-import { Post as PostInterface } from './posts.interface';
+// import { Post as PostInterface } from './posts.interface';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostsService } from './posts.service';
+import PostEntity from './posts.entity';
 
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get()
-  findAll(): PostInterface[] {
+  async findAll(): Promise<PostEntity[]> {
     return this.postsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): PostInterface {
-    return this.postsService.findOne(Number(id));
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<PostEntity> {
+    return this.postsService.findOne(id);
   }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() createPostDto: CreatePostDto): PostInterface {
-    const createdPost = this.postsService.create(createPostDto);
-    return { ...createdPost, createdAt: undefined }; // Omit createdAt from the response, if needed
+  async create(@Body() createPostDto: CreatePostDto): Promise<PostEntity> {
+    return this.postsService.create(createPostDto);
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
+  async update(
+    @Param('id', ParseIntPipe) id: number,
     @Body() updatePostDto: UpdatePostDto,
-  ): PostInterface {
-    return this.postsService.update(Number(id), updatePostDto);
+  ): Promise<PostEntity> {
+    return this.postsService.update(id, updatePostDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string): void {
-    this.postsService.remove(Number(id));
+  async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.postsService.remove(id);
   }
 }
