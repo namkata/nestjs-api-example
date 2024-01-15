@@ -1,14 +1,33 @@
-.architect
-bootstrap.css
-bootstrap.js
-bootstrap.json
-bootstrap.jsonp
-build/
-classic.json
-classic.jsonp
-ext/
-modern.json
-modern.jsonp
-resources/sass/.sass-cache/
-resources/.arch-internal-preview.css
-.arch-internal-preview.css
+# Dependency directories
+node_modules/
+
+# NestJS build output
+/dist/
+
+# NestJS logs
+/logs/
+
+# Environment variables file
+.env
+
+# NestJS test results
+/test-results/
+
+# NestJS coverage directory
+/coverage/
+
+# NestJS temporary files
+/.cache/
+/nx-report/
+
+# NestJS generated documentation
+/docs/
+/swagger/
+
+# IDE-specific files
+.idea/
+.vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
