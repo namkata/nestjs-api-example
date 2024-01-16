@@ -1,12 +1,10 @@
-import User from '../users.entity';
-
 /**
  * Represents a data transfer object for creating a new user.
  *
  * This class is used to encapsulate the data required to create a new user record.
  * It includes the user's email, name, and password.
  */
-export class CreateUserDto implements Omit<User, 'id'> {
+export class CreateUserDto {
   /**
    * The email address of the user.
    *

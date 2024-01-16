@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import { ValidationPipe, ClassSerializerInterceptor } from '@nestjs/common';
-import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+// import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { ExcludeNullInterceptor } from './utils/excludeNull.interceptor';
 
 async function bootstrap() {
@@ -18,8 +18,8 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
   app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalFilters(new HttpExceptionFilter());
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  // app.useGlobalFilters(new HttpExceptionFilter());
+  // app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.useGlobalInterceptors(new ExcludeNullInterceptor());
   app.use(cookieParser());
   await app.listen(3000);

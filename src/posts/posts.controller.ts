@@ -10,6 +10,9 @@ import {
   HttpStatus,
   ParseIntPipe,
   UseGuards,
+  Req,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 // import { Post as PostInterface } from './posts.interface';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -17,8 +20,10 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { PostsService } from './posts.service';
 import PostEntity from './posts.entity';
 import JwtAuthenticationGuard from './../authentication/jwt-authentication.guard';
+import RequestWithUser from './../authentication/requestWithUser.interface';
 
 @Controller('posts')
+@UseInterceptors(ClassSerializerInterceptor)
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
@@ -35,8 +40,11 @@ export class PostsController {
   @Post()
   @UseGuards(JwtAuthenticationGuard)
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createPostDto: CreatePostDto): Promise<PostEntity> {
-    return this.postsService.create(createPostDto);
+  async create(
+    @Body() createPostDto: CreatePostDto,
+    @Req() req: RequestWithUser,
+  ): Promise<PostEntity> {
+    return this.postsService.create(createPostDto, req.user);
   }
 
   @Patch(':id')
