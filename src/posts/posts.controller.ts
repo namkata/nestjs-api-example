@@ -9,12 +9,14 @@ import {
   HttpCode,
   HttpStatus,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 // import { Post as PostInterface } from './posts.interface';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostsService } from './posts.service';
 import PostEntity from './posts.entity';
+import JwtAuthenticationGuard from './../authentication/jwt-authentication.guard';
 
 @Controller('posts')
 export class PostsController {
@@ -31,6 +33,7 @@ export class PostsController {
   }
 
   @Post()
+  @UseGuards(JwtAuthenticationGuard)
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createPostDto: CreatePostDto): Promise<PostEntity> {
     return this.postsService.create(createPostDto);
